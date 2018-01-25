@@ -1,24 +1,27 @@
 import React, {Component} from 'react'
 import Swiper from './Swiper'
-import {Button, StyleSheet, Text, View,TouchableHighlight,Image} from 'react-native'
+import {Button, StyleSheet, Text, View,TouchableHighlight,Image, Linking,Alert} from 'react-native'
 import Card1 from './card1'
 import Card2 from './card2'
 import Card3 from './card3'
 import Card4 from './card4'
 import Card5 from './card5'
 import Card6 from './card6'
+import SelectButtonCard from './selectablecard1'
 
 export default class Exemple extends Component {
 
   constructor (props) {
     super(props)
     this.state = {
-      cards: [<Card1/>, <Card2/>, <Card3/>,<Card4/>,<Card5/>,<Card6/>],
+      cards: [<Card1/>, <Card2/>, <Card3/>,<Card4/>,<Card5/>,<Card6/>,<SelectButtonCard/>],
       swipedAllCards: false,
       swipeDirection: '',
       isSwipingBack: false,
       cardIndex: 0,
-      positionIndex:1
+      positionIndex:1,
+      retry:false,
+      canSwipe:true
     }
   }
 
@@ -35,8 +38,12 @@ export default class Exemple extends Component {
 
   onSwipedAllCards = () => {
     this.setState({
-      swipedAllCards: true
+      swipedAllCards: true,
+      retry:true
     })
+
+    // Linking.openURL('https://google.com')
+
   };
 
   swipeBack = () => {
@@ -62,10 +69,32 @@ export default class Exemple extends Component {
     this.swiper.swipeLeft()
   };
 
-  submit(index){
-  this.state({positionIndex : index + 2});
+
+  onSwipe = (cardIndex)=>{
+    if(this.state.positionIndex < this.state.cards.length)
+    {
+      this.setState({positionIndex : cardIndex + 2})
+    }
+
+    if(this.state.positionIndex == 3)
+    {
+      Alert.alert(
+      'From CXS Bot',
+      'We can see that it seems like you can be suited for jobs within the tech industry. Let’s answer a couple of more questions, and see if we can give you more direct suggestions!',
+      [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+      )
+    }
+    else if (this.state.positionIndex == 7) {
+      this.setState({canSwipe:false})
+    }
   }
 
+  onPress = () => {
+    // this.setState({cardIndex:0,cards})
+  }
 
   render () {
 
@@ -76,8 +105,10 @@ export default class Exemple extends Component {
           ref={swiper => {
             this.swiper = swiper
           }}
-          onSwiped= {(cardIndex)=>{this.submit(cardIndex)}}
-          onTapCard={this.swipeLeft}
+          onSwiped= {this.onSwipe}
+          verticalSwipe = {false}
+          horizontalSwipe = {this.state.canSwipe}
+          // onTapCard={this.swipeLeft}
           cards={this.state.cards}
           cardIndex={this.state.cardIndex}
           cardVerticalMargin={120}
@@ -85,7 +116,7 @@ export default class Exemple extends Component {
           onSwipedAll={this.onSwipedAllCards}
           overlayLabels={{
             bottom: {
-              title: 'BLEAH',
+              title: 'Nah',
               style: {
                 label: {
                   backgroundColor: 'black',
@@ -137,7 +168,7 @@ export default class Exemple extends Component {
               }
             },
             top: {
-              title: 'SUPER LIKE',
+              title: 'Definitely',
               style: {
                 label: {
                   backgroundColor: 'black',
@@ -157,6 +188,15 @@ export default class Exemple extends Component {
           animateCardOpacity
         >
         </Swiper>
+        {this.state.retry && (
+          <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                  <TouchableHighlight
+             onPress={this.onPress}
+            >
+             <Text style={{color:'white'}}> Retry Demo </Text>
+            </TouchableHighlight>
+            </View>
+          )}
 
         </View>
         <View style={{

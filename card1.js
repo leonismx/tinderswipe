@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {Button, StyleSheet, Text, View,Image} from 'react-native'
 
-export default class Card1 extends Component {
+export default class Card1 extends PureComponent {
 
 render () {
   return (
