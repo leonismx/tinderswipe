@@ -18,7 +18,7 @@ render () {
   height: 300,
   borderRadius:150
 }}
-            source={require('./pics/C11.jpg')}
+            source={require('./pics/R7.jpg')}
             resizeMode= 'cover'
           />
         </View>

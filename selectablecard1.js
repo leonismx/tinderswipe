@@ -4,7 +4,18 @@ import { TagSelect } from 'react-native-tag-select';
 import { Button } from 'react-native-elements'
 
 export default class SelectButtonCard extends PureComponent {
+  constructor(props) {
+      super(props);
 
+      console.log(this.props.doneSelection)
+      this.state = {
+         leon: this.props.doneSelection
+     };
+  }
+
+  getInnerData() {
+    // this.state.leon
+    }
   render() {
     const data = [
       { id: 1, label: 'Organized' },
@@ -29,10 +40,10 @@ export default class SelectButtonCard extends PureComponent {
         <View style={styles.buttonContainer}>
 
         <View style={styles.buttonInner}>
-        <Button
-          fontSize= '22'
+        <Button textStyle={{fontSize:22}}
           color="#2f3847"
-          transparent='true'
+          transparent= {true}
+          onPress = {this.state.leon}
           title='Continue -->' />
           </View>
         </View>
@@ -82,6 +93,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     padding: 15,
+    marginTop:30
   },
   buttonInner: {
     marginBottom: 15,
@@ -92,6 +104,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '500',
     marginBottom: 15,
+    marginTop:30
   },
   item: {
     borderWidth: 1,

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Swiper from './Swiper'
-import {Button, StyleSheet, Text, View,TouchableHighlight,Image, Linking,Alert} from 'react-native'
+import {Button, StyleSheet, Text, View,TouchableOpacity,Image, Linking,Alert} from 'react-native'
 import Card1 from './card1'
 import Card2 from './card2'
 import Card3 from './card3'
@@ -14,14 +14,15 @@ export default class Exemple extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      cards: [<Card1/>, <Card2/>, <Card3/>,<Card4/>,<Card5/>,<Card6/>,<SelectButtonCard/>],
+      cards: [<Card1/>, <Card2/>, <Card3/>,<Card4/>,<Card5/>,<Card6/>,<SelectButtonCard doneSelection={this.jumpCard}/>],
       swipedAllCards: false,
       swipeDirection: '',
       isSwipingBack: false,
       cardIndex: 0,
       positionIndex:1,
       retry:false,
-      canSwipe:true
+      canSwipe:true,
+      hideButtons:false
     }
   }
 
@@ -65,35 +66,53 @@ export default class Exemple extends Component {
     )
   };
 
+  swipeRight = () => {
+    this.swiper.swipeRight()
+  };
+
   swipeLeft = () => {
     this.swiper.swipeLeft()
   };
 
+  swipeTop = () =>{
+    this.swiper.swipeTop()
+
+  }
+
+jumpCard = () =>{
+  this.swiper.swipeTop()
+}
 
   onSwipe = (cardIndex)=>{
     if(this.state.positionIndex < this.state.cards.length)
     {
       this.setState({positionIndex : cardIndex + 2})
-    }
 
-    if(this.state.positionIndex == 3)
-    {
-      Alert.alert(
-      'From CXS Bot',
-      'We can see that it seems like you can be suited for jobs within the tech industry. Let’s answer a couple of more questions, and see if we can give you more direct suggestions!',
-      [
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ],
-      { cancelable: false }
-      )
+      if(this.state.positionIndex == 3)
+      {
+        Alert.alert(
+        'From CXS Bot',
+        'We can see that it seems like you can be suited for jobs within the tech industry. Let’s answer a couple of more questions, and see if we can give you more direct suggestions!',
+        [
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+        )
+      }
+
     }
-    else if (this.state.positionIndex == 7) {
-      this.setState({canSwipe:false})
+    if (this.state.positionIndex == 7) {
+      this.setState({canSwipe:false,
+                      hideButtons:true})
     }
   }
 
-  onPress = () => {
-    // this.setState({cardIndex:0,cards})
+  dislikeButton = () => {
+    this.swipeLeft()
+  }
+
+  likeButton = () => {
+    this.swipeRight()
   }
 
   render () {
@@ -190,39 +209,44 @@ export default class Exemple extends Component {
         </Swiper>
         {this.state.retry && (
           <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-                  <TouchableHighlight
+                  <TouchableOpacity
              onPress={this.onPress}
             >
              <Text style={{color:'white'}}> Retry Demo </Text>
-            </TouchableHighlight>
+            </TouchableOpacity>
             </View>
           )}
 
         </View>
-        <View style={{
-        flex: 2,
-        flexDirection: 'row',
-      }}>
-        <View style={{flex:3, backgroundColor: '#2f3847', alignItems:'center'}}>
-          <TouchableHighlight onPress={this._onPressButton}>
+
+        {!this.state.hideButtons && (
+          <View style={{
+          flex: 2,
+          flexDirection: 'row',
+        }}>
+          <View style={{flex:3, backgroundColor: '#2f3847', alignItems:'center'}}>
+            <TouchableOpacity onPress={this.dislikeButton}>
+            <Image
+              style={styles.button}
+              source={require('./nah.png')}
+            />
+            </TouchableOpacity>
+          </View>
+          <View style={{flex:3, backgroundColor: '#2f3847',alignItems:'center'}}>
+            <Text style ={{color:'white',fontSize:22}}> {this.state.positionIndex} / {this.state.cards.length} </Text>
+          </View>
+          <View style={{flex:3, backgroundColor: '#2f3847',alignItems:'center'}}>
+          <TouchableOpacity onPress={this.likeButton}>
           <Image
             style={styles.button}
-            source={require('./nah.png')}
+            source={require('./like.png')}
           />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
-        <View style={{flex:3, backgroundColor: '#2f3847',alignItems:'center'}}>
-          <Text style ={{color:'white',fontSize:22}}> {this.state.positionIndex} / {this.state.cards.length} </Text>
         </View>
-        <View style={{flex:3, backgroundColor: '#2f3847',alignItems:'center'}}>
-        <TouchableHighlight onPress={this._onPressButton}>
-        <Image
-          style={styles.button}
-          source={require('./like.png')}
-        />
-        </TouchableHighlight>
-      </View>
-      </View>
+          )}
+
+
       </View>
 
     )

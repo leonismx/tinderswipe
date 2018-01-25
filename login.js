@@ -15,7 +15,7 @@ navigateToFlow = () =>{
 render () {
   return (
 
-    <View style={{flex:1,backgroundColor:'red',
+    <View style={{flex:1,
     top: 0,
     left: 0,
     width: '100%',

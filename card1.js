@@ -7,7 +7,8 @@ render () {
   return (
       <View style={{flex:1, alignItems:'center'}}>
       <Text style={{fontSize: 18
-      ,marginTop:30,justifyContent:'center',alignItems:'center', color:'#2f3847'}}> Do You like to draw? </Text>
+      ,marginTop:30,justifyContent:'center',alignItems:'center', color:'#2f3847'}}>
+你喜欢画画吗？ </Text>
         <Image style={{
     marginTop:30,
     left: 0,
