@@ -7,15 +7,11 @@ export default class SelectButtonCard extends PureComponent {
   constructor(props) {
       super(props);
 
-      console.log(this.props.doneSelection)
       this.state = {
          leon: this.props.doneSelection
      };
   }
 
-  getInnerData() {
-    // this.state.leon
-    }
   render() {
     const data = [
       { id: 1, label: 'Organized' },

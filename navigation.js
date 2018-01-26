@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import {Button, StyleSheet, Text, View,Image,TouchableOpacity} from 'react-native'
+import {Button, StyleSheet, Text, View,Image,TouchableOpacity,BackAndroid } from 'react-native'
 import {
   StackNavigator,
   DrawerNavigator
@@ -7,7 +7,8 @@ import {
 import Login from'./login'
 import FlowXo from'./webview'
 import App from './App'
-
+import Loader from './loader'
+import Profile from './profile'
 const LoginStack = StackNavigator(
  {
   Root: {
@@ -41,11 +42,46 @@ const LoginStack = StackNavigator(
        // headerStyle: { backgroundColor: '#e90d8b'},
 
      }),
+   },
+   asd: {
+     screen: Loader,
+     navigationOptions: ({ navigation }) => ({
+       header: null,
+
+       // headerTintColor: 'white',
+       // headerStyle: { backgroundColor: '#e90d8b'},
+
+     }),
+   },
+   myprofile: {
+     screen: Profile,
+     navigationOptions: ({ navigation }) => ({
+       headerTitle: 'My Profile',
+       headerStyle:{ backgroundColor: '#2f3847'},
+       headerTitleStyle:{ color: 'white'},
+       headerLeft: null
+
+       // headerTintColor: 'white',
+       // headerStyle: { backgroundColor: '#e90d8b'},
+
+     }),
    }
 });
 
 export default class Navigation extends React.Component{
 
+
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton() {
+    return true;
+  }
 
   render () {
     return(

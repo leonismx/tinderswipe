@@ -7,12 +7,14 @@ import Card3 from './card3'
 import Card4 from './card4'
 import Card5 from './card5'
 import Card6 from './card6'
+import Login from'./login'
 import SelectButtonCard from './selectablecard1'
-
+import Loader from './loader'
 export default class Exemple extends Component {
 
   constructor (props) {
     super(props)
+
     this.state = {
       cards: [<Card1/>, <Card2/>, <Card3/>,<Card4/>,<Card5/>,<Card6/>,<SelectButtonCard doneSelection={this.jumpCard}/>],
       swipedAllCards: false,
@@ -22,7 +24,7 @@ export default class Exemple extends Component {
       positionIndex:1,
       retry:false,
       canSwipe:true,
-      hideButtons:false
+      hideButtons:false,
     }
   }
 
@@ -81,6 +83,7 @@ export default class Exemple extends Component {
 
 jumpCard = () =>{
   this.swiper.swipeTop()
+
 }
 
   onSwipe = (cardIndex)=>{
@@ -208,13 +211,7 @@ jumpCard = () =>{
         >
         </Swiper>
         {this.state.retry && (
-          <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
-                  <TouchableOpacity
-             onPress={this.onPress}
-            >
-             <Text style={{color:'white'}}> Retry Demo </Text>
-            </TouchableOpacity>
-            </View>
+        <Loader asd = {this.props.navigation}/>
           )}
 
         </View>
